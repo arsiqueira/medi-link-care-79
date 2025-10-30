@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -30,8 +30,11 @@ interface Triagem {
 
 const Prontuario = () => {
   const navigate = useNavigate();
+  const { pacienteId } = useParams<{ pacienteId: string }>();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [isProfessional, setIsProfessional] = useState(false);
+  const [targetPatientId, setTargetPatientId] = useState<string | null>(null);
   const [prontuario, setProntuario] = useState<Prontuario | null>(null);
   const [triagens, setTriagens] = useState<Triagem[]>([]);
   
@@ -53,11 +56,31 @@ const Prontuario = () => {
         return;
       }
 
+      // Verificar se é profissional
+      const { data: profileData } = await supabase
+        .from("profiles")
+        .select("tipo_usuario")
+        .eq("id", user.id)
+        .single();
+
+      const isProf = profileData?.tipo_usuario === "profissional";
+      setIsProfessional(isProf);
+
+      // Se é profissional e não especificou paciente, redirecionar para lista
+      if (isProf && !pacienteId) {
+        navigate("/pacientes");
+        return;
+      }
+
+      // Determinar qual paciente carregar
+      const patientId = pacienteId || user.id;
+      setTargetPatientId(patientId);
+
       // Carregar prontuário
       const { data: prontuarioData, error: prontuarioError } = await supabase
         .from("prontuarios")
         .select("*")
-        .eq("paciente_id", user.id)
+        .eq("paciente_id", patientId)
         .maybeSingle();
 
       if (prontuarioError && prontuarioError.code !== "PGRST116") {
@@ -76,7 +99,7 @@ const Prontuario = () => {
       const { data: triagensData, error: triagensError } = await supabase
         .from("triagens_ia")
         .select("*")
-        .eq("usuario_id", user.id)
+        .eq("usuario_id", patientId)
         .order("created_at", { ascending: false });
 
       if (triagensError) throw triagensError;
@@ -91,15 +114,10 @@ const Prontuario = () => {
   };
 
   const handleSave = async () => {
+    if (!targetPatientId) return;
+    
     setSaving(true);
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      
-      if (!user) {
-        navigate("/auth");
-        return;
-      }
-
       if (prontuario) {
         // Atualizar prontuário existente
         const { error } = await supabase
@@ -118,7 +136,7 @@ const Prontuario = () => {
         const { error } = await supabase
           .from("prontuarios")
           .insert({
-            paciente_id: user.id,
+            paciente_id: targetPatientId,
             historico_medico: historicoMedico,
             alergias: alergias,
             medicamentos_uso: medicamentosUso,

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Activity, AlertCircle, Bell, Brain, FileText, LogOut, Heart, Users } from "lucide-react";
+import { Activity, AlertCircle, Bell, Brain, FileText, LogOut, Heart, Users, UserCheck } from "lucide-react";
 import { toast } from "sonner";
 import { Session } from "@supabase/supabase-js";
 import dashboardBg from "@/assets/dashboard-bg.jpg";
@@ -217,17 +217,15 @@ const Dashboard = () => {
           {profile?.tipo_usuario === "profissional" && (
             <Card
               className="cursor-pointer hover:shadow-lg transition-all duration-300 border-2 hover:border-success/50 group"
-              onClick={() => {
-                toast.info("Área profissional em desenvolvimento");
-              }}
+              onClick={() => navigate("/pacientes")}
             >
               <CardHeader>
                 <div className="w-14 h-14 rounded-lg bg-success flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                  <Users className="h-7 w-7 text-white" />
+                  <UserCheck className="h-7 w-7 text-white" />
                 </div>
                 <CardTitle>Meus Pacientes</CardTitle>
                 <CardDescription>
-                  Gerencie seus pacientes e consultas
+                  Visualize e gerencie os dados dos pacientes
                 </CardDescription>
               </CardHeader>
             </Card>
