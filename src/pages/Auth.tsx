@@ -24,7 +24,7 @@ const Auth = () => {
   const [signupNome, setSignupNome] = useState("");
   const [signupEmail, setSignupEmail] = useState("");
   const [signupPassword, setSignupPassword] = useState("");
-  const [signupTipo, setSignupTipo] = useState<"paciente" | "profissional">("paciente");
+  const [signupTipo, setSignupTipo] = useState<"paciente" | "profissional" | "voluntario">("paciente");
 
   useEffect(() => {
     // Check initial session
@@ -230,7 +230,7 @@ const Auth = () => {
                   <Label htmlFor="signup-tipo">Tipo de Conta</Label>
                   <Select
                     value={signupTipo}
-                    onValueChange={(value) => setSignupTipo(value as "paciente" | "profissional")}
+                    onValueChange={(value) => setSignupTipo(value as "paciente" | "profissional" | "voluntario")}
                     disabled={loading}
                   >
                     <SelectTrigger id="signup-tipo">
@@ -239,6 +239,7 @@ const Auth = () => {
                     <SelectContent>
                       <SelectItem value="paciente">Paciente</SelectItem>
                       <SelectItem value="profissional">Profissional de Saúde</SelectItem>
+                      <SelectItem value="voluntario">Voluntário</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
