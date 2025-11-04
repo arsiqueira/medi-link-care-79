@@ -187,38 +187,80 @@ export type Database = {
       }
       profiles: {
         Row: {
+          alergias: string | null
+          ativo: boolean | null
+          bairro: string | null
+          cep: string | null
+          cidade: string | null
+          condicoes_preexistentes: string | null
           cpf: string | null
           created_at: string
           data_nascimento: string | null
           email: string
+          endereco: string | null
+          estado: string | null
           foto_url: string | null
           id: string
+          medicamentos_uso_continuo: string | null
           nome: string
+          numero: string | null
+          observacoes_medicas: string | null
+          rg: string | null
+          sexo: string | null
           telefone: string | null
+          tipo_sanguineo: string | null
           tipo_usuario: Database["public"]["Enums"]["tipo_usuario"]
           updated_at: string
         }
         Insert: {
+          alergias?: string | null
+          ativo?: boolean | null
+          bairro?: string | null
+          cep?: string | null
+          cidade?: string | null
+          condicoes_preexistentes?: string | null
           cpf?: string | null
           created_at?: string
           data_nascimento?: string | null
           email: string
+          endereco?: string | null
+          estado?: string | null
           foto_url?: string | null
           id: string
+          medicamentos_uso_continuo?: string | null
           nome: string
+          numero?: string | null
+          observacoes_medicas?: string | null
+          rg?: string | null
+          sexo?: string | null
           telefone?: string | null
+          tipo_sanguineo?: string | null
           tipo_usuario?: Database["public"]["Enums"]["tipo_usuario"]
           updated_at?: string
         }
         Update: {
+          alergias?: string | null
+          ativo?: boolean | null
+          bairro?: string | null
+          cep?: string | null
+          cidade?: string | null
+          condicoes_preexistentes?: string | null
           cpf?: string | null
           created_at?: string
           data_nascimento?: string | null
           email?: string
+          endereco?: string | null
+          estado?: string | null
           foto_url?: string | null
           id?: string
+          medicamentos_uso_continuo?: string | null
           nome?: string
+          numero?: string | null
+          observacoes_medicas?: string | null
+          rg?: string | null
+          sexo?: string | null
           telefone?: string | null
+          tipo_sanguineo?: string | null
           tipo_usuario?: Database["public"]["Enums"]["tipo_usuario"]
           updated_at?: string
         }
@@ -226,28 +268,37 @@ export type Database = {
       }
       profissionais: {
         Row: {
+          area_atuacao: string | null
           created_at: string
           crm: string | null
           especialidade: string
+          experiencia: string | null
           id: string
+          local_atendimento: string | null
           profile_id: string
-          unidade: string | null
+          registro_profissional: string | null
         }
         Insert: {
+          area_atuacao?: string | null
           created_at?: string
           crm?: string | null
           especialidade: string
+          experiencia?: string | null
           id?: string
+          local_atendimento?: string | null
           profile_id: string
-          unidade?: string | null
+          registro_profissional?: string | null
         }
         Update: {
+          area_atuacao?: string | null
           created_at?: string
           crm?: string | null
           especialidade?: string
+          experiencia?: string | null
           id?: string
+          local_atendimento?: string | null
           profile_id?: string
-          unidade?: string | null
+          registro_profissional?: string | null
         }
         Relationships: [
           {
@@ -364,6 +415,38 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      voluntarios: {
+        Row: {
+          created_at: string
+          disponibilidade: string | null
+          id: string
+          profile_id: string
+          tipo_ajuda: string
+        }
+        Insert: {
+          created_at?: string
+          disponibilidade?: string | null
+          id?: string
+          profile_id: string
+          tipo_ajuda: string
+        }
+        Update: {
+          created_at?: string
+          disponibilidade?: string | null
+          id?: string
+          profile_id?: string
+          tipo_ajuda?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "voluntarios_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
