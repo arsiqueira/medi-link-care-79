@@ -198,37 +198,52 @@ const Dashboard = () => {
           </Card>
 
           <Card
-            className="cursor-pointer hover:shadow-lg transition-all duration-300 border-2 hover:border-info/50 group"
-            onClick={() => {
-              toast.info("Funcionalidade de monitoramento em desenvolvimento");
-            }}
+            className="cursor-pointer hover:shadow-lg transition-all duration-300 border-2 hover:border-success/50 group"
+            onClick={() => navigate("/chat-paciente")}
           >
             <CardHeader>
-              <div className="w-14 h-14 rounded-lg bg-info flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+              <div className="w-14 h-14 rounded-lg bg-success flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                 <Heart className="h-7 w-7 text-white" />
               </div>
-              <CardTitle>Monitoramento</CardTitle>
+              <CardTitle>Chat com Médico</CardTitle>
               <CardDescription>
-                Acompanhe sua evolução de saúde
+                Converse com seu médico em tempo real
               </CardDescription>
             </CardHeader>
           </Card>
 
           {profile?.tipo_usuario === "profissional" && (
-            <Card
-              className="cursor-pointer hover:shadow-lg transition-all duration-300 border-2 hover:border-success/50 group"
-              onClick={() => navigate("/pacientes")}
-            >
-              <CardHeader>
-                <div className="w-14 h-14 rounded-lg bg-success flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                  <UserCheck className="h-7 w-7 text-white" />
-                </div>
-                <CardTitle>Meus Pacientes</CardTitle>
-                <CardDescription>
-                  Visualize e gerencie os dados dos pacientes
-                </CardDescription>
-              </CardHeader>
-            </Card>
+            <>
+              <Card
+                className="cursor-pointer hover:shadow-lg transition-all duration-300 border-2 hover:border-success/50 group"
+                onClick={() => navigate("/pacientes")}
+              >
+                <CardHeader>
+                  <div className="w-14 h-14 rounded-lg bg-success flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <UserCheck className="h-7 w-7 text-white" />
+                  </div>
+                  <CardTitle>Meus Pacientes</CardTitle>
+                  <CardDescription>
+                    Visualize e gerencie os dados dos pacientes
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+
+              <Card
+                className="cursor-pointer hover:shadow-lg transition-all duration-300 border-2 hover:border-primary/50 group"
+                onClick={() => navigate("/chats-medico")}
+              >
+                <CardHeader>
+                  <div className="w-14 h-14 rounded-lg bg-gradient-primary flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <Heart className="h-7 w-7 text-white" />
+                  </div>
+                  <CardTitle>Mensagens dos Pacientes</CardTitle>
+                  <CardDescription>
+                    Gerencie conversas com seus pacientes
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+            </>
           )}
         </div>
 

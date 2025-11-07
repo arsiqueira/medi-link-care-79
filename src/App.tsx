@@ -9,6 +9,8 @@ import Dashboard from "./pages/Dashboard";
 import Triagem from "./pages/Triagem";
 import Prontuario from "./pages/Prontuario";
 import Pacientes from "./pages/Pacientes";
+import ChatPaciente from "./pages/ChatPaciente";
+import ChatsMedico from "./pages/ChatsMedico";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -27,6 +29,8 @@ const App = () => (
           <Route path="/prontuario" element={<Prontuario />} />
           <Route path="/prontuario/:pacienteId" element={<Prontuario />} />
           <Route path="/pacientes" element={<Pacientes />} />
+          <Route path="/chat-paciente" element={<ChatPaciente />} />
+          <Route path="/chats-medico" element={<ChatsMedico />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

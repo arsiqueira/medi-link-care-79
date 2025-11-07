@@ -66,12 +66,35 @@ const Triagem = () => {
       } = await supabase.auth.getUser();
 
       if (user) {
-        await supabase.from("triagens_ia").insert({
-          usuario_id: user.id,
-          sintomas,
-          classificacao: data.classificacao,
-          resposta_ia: data.resposta_ia,
-        });
+        const { data: triagemData, error: triagemError } = await supabase
+          .from("triagens_ia")
+          .insert({
+            usuario_id: user.id,
+            sintomas,
+            classificacao: data.classificacao,
+            resposta_ia: data.resposta_ia,
+          })
+          .select()
+          .single();
+
+        if (triagemError) throw triagemError;
+
+        // Criar vínculo com médico automaticamente
+        try {
+          const { error: vinculoError } = await supabase.rpc(
+            "criar_vinculo_medico_paciente",
+            {
+              p_id_triagem: triagemData.id,
+              p_id_paciente: user.id,
+            }
+          );
+
+          if (!vinculoError) {
+            toast.success("Chat habilitado! Você pode conversar com seu médico por 24 horas.");
+          }
+        } catch (vinculoError) {
+          console.error("Erro ao criar vínculo:", vinculoError);
+        }
       }
 
       toast.success("Triagem realizada com sucesso!");
@@ -217,6 +240,13 @@ const Triagem = () => {
 
                 <div className="flex gap-4">
                   <Button
+                    onClick={() => navigate("/chat-paciente")}
+                    className="flex-1 bg-gradient-primary hover:opacity-90"
+                    size="lg"
+                  >
+                    💬 Conversar com Médico
+                  </Button>
+                  <Button
                     onClick={handleNovaTriagem}
                     variant="outline"
                     className="flex-1"
@@ -226,7 +256,8 @@ const Triagem = () => {
                   </Button>
                   <Button
                     onClick={() => navigate("/dashboard")}
-                    className="flex-1 bg-gradient-secondary hover:opacity-90"
+                    variant="outline"
+                    className="flex-1"
                     size="lg"
                   >
                     Voltar ao Dashboard

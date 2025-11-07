@@ -14,6 +14,70 @@ export type Database = {
   }
   public: {
     Tables: {
+      chat_mensagens: {
+        Row: {
+          arquivo_url: string | null
+          created_at: string
+          data_envio: string
+          id: string
+          id_medico: string
+          id_paciente: string
+          id_triagem: string | null
+          mensagem: string | null
+          remetente_tipo: string
+          status: string
+          tipo: string
+        }
+        Insert: {
+          arquivo_url?: string | null
+          created_at?: string
+          data_envio?: string
+          id?: string
+          id_medico: string
+          id_paciente: string
+          id_triagem?: string | null
+          mensagem?: string | null
+          remetente_tipo: string
+          status?: string
+          tipo?: string
+        }
+        Update: {
+          arquivo_url?: string | null
+          created_at?: string
+          data_envio?: string
+          id?: string
+          id_medico?: string
+          id_paciente?: string
+          id_triagem?: string | null
+          mensagem?: string | null
+          remetente_tipo?: string
+          status?: string
+          tipo?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chat_mensagens_id_medico_fkey"
+            columns: ["id_medico"]
+            isOneToOne: false
+            referencedRelation: "profissionais"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "chat_mensagens_id_paciente_fkey"
+            columns: ["id_paciente"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "chat_mensagens_id_triagem_fkey"
+            columns: ["id_triagem"]
+            isOneToOne: false
+            referencedRelation: "triagens_ia"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       consultas: {
         Row: {
           created_at: string
@@ -179,6 +243,45 @@ export type Database = {
           {
             foreignKeyName: "medicacoes_paciente_id_fkey"
             columns: ["paciente_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      medico_paciente: {
+        Row: {
+          ativo: boolean
+          data_vinculo: string
+          id: string
+          id_medico: string
+          id_paciente: string
+        }
+        Insert: {
+          ativo?: boolean
+          data_vinculo?: string
+          id?: string
+          id_medico: string
+          id_paciente: string
+        }
+        Update: {
+          ativo?: boolean
+          data_vinculo?: string
+          id?: string
+          id_medico?: string
+          id_paciente?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "medico_paciente_id_medico_fkey"
+            columns: ["id_medico"]
+            isOneToOne: false
+            referencedRelation: "profissionais"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "medico_paciente_id_paciente_fkey"
+            columns: ["id_paciente"]
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
@@ -353,39 +456,52 @@ export type Database = {
       }
       triagens_ia: {
         Row: {
+          chat_expira_em: string | null
           classificacao:
             | Database["public"]["Enums"]["classificacao_triagem"]
             | null
           created_at: string
           id: string
+          id_medico_vinculado: string | null
           recomendacao: string | null
           resposta_ia: string | null
           sintomas: string
           usuario_id: string
         }
         Insert: {
+          chat_expira_em?: string | null
           classificacao?:
             | Database["public"]["Enums"]["classificacao_triagem"]
             | null
           created_at?: string
           id?: string
+          id_medico_vinculado?: string | null
           recomendacao?: string | null
           resposta_ia?: string | null
           sintomas: string
           usuario_id: string
         }
         Update: {
+          chat_expira_em?: string | null
           classificacao?:
             | Database["public"]["Enums"]["classificacao_triagem"]
             | null
           created_at?: string
           id?: string
+          id_medico_vinculado?: string | null
           recomendacao?: string | null
           resposta_ia?: string | null
           sintomas?: string
           usuario_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "triagens_ia_id_medico_vinculado_fkey"
+            columns: ["id_medico_vinculado"]
+            isOneToOne: false
+            referencedRelation: "profissionais"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "triagens_ia_usuario_id_fkey"
             columns: ["usuario_id"]
@@ -453,6 +569,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      criar_vinculo_medico_paciente: {
+        Args: { p_id_paciente: string; p_id_triagem: string }
+        Returns: string
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
