@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Activity, AlertCircle, Bell, Brain, FileText, LogOut, Heart, Users, UserCheck, User } from "lucide-react";
+import { Activity, AlertCircle, Bell, Brain, FileText, LogOut, Heart, Users, UserCheck, User, MessageSquare, CalendarCheck } from "lucide-react";
 import { toast } from "sonner";
 import { Session } from "@supabase/supabase-js";
 import dashboardBg from "@/assets/dashboard-bg.jpg";
@@ -212,6 +212,21 @@ const Dashboard = () => {
             </CardHeader>
           </Card>
 
+          <Card
+            className="cursor-pointer hover:shadow-lg transition-all duration-300 border-2 hover:border-primary/50 group"
+            onClick={() => navigate("/agendamento")}
+          >
+            <CardHeader>
+              <div className="w-14 h-14 rounded-lg bg-gradient-primary flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                <CalendarCheck className="h-7 w-7 text-white" />
+              </div>
+              <CardTitle>Agendar Consulta</CardTitle>
+              <CardDescription>
+                Marque uma consulta com seu médico
+              </CardDescription>
+            </CardHeader>
+          </Card>
+
           {profile?.tipo_usuario === "paciente" && (
             <Card
               className="cursor-pointer hover:shadow-lg transition-all duration-300 border-2 hover:border-info/50 group"
@@ -257,6 +272,21 @@ const Dashboard = () => {
                   <CardTitle>Mensagens dos Pacientes</CardTitle>
                   <CardDescription>
                     Gerencie conversas com seus pacientes
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+
+              <Card
+                className="cursor-pointer hover:shadow-lg transition-all duration-300 border-2 hover:border-secondary/50 group"
+                onClick={() => navigate("/agenda-medico")}
+              >
+                <CardHeader>
+                  <div className="w-14 h-14 rounded-lg bg-gradient-secondary flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <CalendarCheck className="h-7 w-7 text-white" />
+                  </div>
+                  <CardTitle>Minha Agenda</CardTitle>
+                  <CardDescription>
+                    Gerencie consultas e disponibilidade
                   </CardDescription>
                 </CardHeader>
               </Card>
