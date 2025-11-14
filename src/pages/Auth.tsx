@@ -88,14 +88,16 @@ const Auth = () => {
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!signupCodigoSecreto) {
-      toast.error("Por favor, digite o código secreto");
-      return;
-    }
+    if (signupTipo === "profissional") {
+      if (!signupCodigoSecreto) {
+        toast.error("Por favor, digite o código secreto para profissionais");
+        return;
+      }
 
-    if (signupCodigoSecreto !== "0000") {
-      toast.error("Código secreto incorreto");
-      return;
+      if (signupCodigoSecreto !== "0000") {
+        toast.error("Código secreto incorreto");
+        return;
+      }
     }
 
     if (!signupNome || !signupEmail || !signupPassword || !signupCpf || !signupTelefone || !signupDataNascimento) {
@@ -215,22 +217,76 @@ const Auth = () => {
             <TabsContent value="signup">
               <form onSubmit={handleSignup} className="space-y-4 mt-4">
                 <div className="space-y-2">
-                  <Label htmlFor="signup-codigo">Código Secreto *</Label>
-                  <Input
-                    id="signup-codigo"
-                    type="password"
-                    placeholder="Digite o código de acesso"
-                    value={signupCodigoSecreto}
-                    onChange={(e) => setSignupCodigoSecreto(e.target.value)}
+                  <Label htmlFor="signup-tipo">Tipo de Conta *</Label>
+                  <Select
+                    value={signupTipo}
+                    onValueChange={(value) => {
+                      setSignupTipo(value as "paciente" | "profissional" | "voluntario");
+                      setSignupCodigoSecreto(""); // Limpa o código ao trocar tipo
+                    }}
                     disabled={loading}
-                    required
-                    maxLength={4}
-                    className="text-center text-2xl tracking-widest"
-                  />
-                  <p className="text-xs text-muted-foreground">
-                    Você precisa do código de acesso para criar uma conta
-                  </p>
+                  >
+                    <SelectTrigger id="signup-tipo">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="paciente">Paciente</SelectItem>
+                      <SelectItem value="profissional">Profissional de Saúde</SelectItem>
+                      <SelectItem value="voluntario">Voluntário</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
+                {signupTipo === "profissional" && (
+                  <>
+                    <div className="space-y-2">
+                      <Label htmlFor="signup-codigo">Código Secreto (Profissionais) *</Label>
+                      <Input
+                        id="signup-codigo"
+                        type="password"
+                        placeholder="Digite o código de acesso"
+                        value={signupCodigoSecreto}
+                        onChange={(e) => setSignupCodigoSecreto(e.target.value)}
+                        disabled={loading}
+                        required
+                        maxLength={4}
+                        className="text-center text-2xl tracking-widest"
+                      />
+                      <p className="text-xs text-muted-foreground">
+                        Somente profissionais autorizados podem se cadastrar
+                      </p>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="signup-especialidade">Especialidade *</Label>
+                      <Select value={signupEspecialidade} onValueChange={setSignupEspecialidade} disabled={loading}>
+                        <SelectTrigger id="signup-especialidade">
+                          <SelectValue placeholder="Selecione sua especialidade" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Clínico Geral">Clínico Geral</SelectItem>
+                          <SelectItem value="Cardiologia">Cardiologia</SelectItem>
+                          <SelectItem value="Dermatologia">Dermatologia</SelectItem>
+                          <SelectItem value="Ortopedia">Ortopedia</SelectItem>
+                          <SelectItem value="Pediatria">Pediatria</SelectItem>
+                          <SelectItem value="Ginecologia">Ginecologia</SelectItem>
+                          <SelectItem value="Psiquiatria">Psiquiatria</SelectItem>
+                          <SelectItem value="Neurologia">Neurologia</SelectItem>
+                          <SelectItem value="Oftalmologia">Oftalmologia</SelectItem>
+                          <SelectItem value="Otorrinolaringologia">Otorrinolaringologia</SelectItem>
+                          <SelectItem value="Urologia">Urologia</SelectItem>
+                          <SelectItem value="Endocrinologia">Endocrinologia</SelectItem>
+                          <SelectItem value="Gastroenterologia">Gastroenterologia</SelectItem>
+                          <SelectItem value="Pneumologia">Pneumologia</SelectItem>
+                          <SelectItem value="Reumatologia">Reumatologia</SelectItem>
+                          <SelectItem value="Oncologia">Oncologia</SelectItem>
+                          <SelectItem value="Nefrologia">Nefrologia</SelectItem>
+                          <SelectItem value="Hematologia">Hematologia</SelectItem>
+                          <SelectItem value="Infectologia">Infectologia</SelectItem>
+                          <SelectItem value="Geriatria">Geriatria</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </>
+                )}
                 <div className="space-y-2">
                   <Label htmlFor="signup-nome">Nome Completo *</Label>
                   <Input
@@ -304,55 +360,6 @@ const Auth = () => {
                     required
                   />
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="signup-tipo">Tipo de Conta *</Label>
-                  <Select
-                    value={signupTipo}
-                    onValueChange={(value) => setSignupTipo(value as "paciente" | "profissional" | "voluntario")}
-                    disabled={loading}
-                  >
-                    <SelectTrigger id="signup-tipo">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="paciente">Paciente</SelectItem>
-                      <SelectItem value="profissional">Profissional de Saúde</SelectItem>
-                      <SelectItem value="voluntario">Voluntário</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                {signupTipo === "profissional" && (
-                  <div className="space-y-2">
-                    <Label htmlFor="signup-especialidade">Especialidade *</Label>
-                    <Select value={signupEspecialidade} onValueChange={setSignupEspecialidade} disabled={loading}>
-                      <SelectTrigger id="signup-especialidade">
-                        <SelectValue placeholder="Selecione sua especialidade" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="Clínico Geral">Clínico Geral</SelectItem>
-                        <SelectItem value="Cardiologia">Cardiologia</SelectItem>
-                        <SelectItem value="Dermatologia">Dermatologia</SelectItem>
-                        <SelectItem value="Ortopedia">Ortopedia</SelectItem>
-                        <SelectItem value="Pediatria">Pediatria</SelectItem>
-                        <SelectItem value="Ginecologia">Ginecologia</SelectItem>
-                        <SelectItem value="Psiquiatria">Psiquiatria</SelectItem>
-                        <SelectItem value="Neurologia">Neurologia</SelectItem>
-                        <SelectItem value="Oftalmologia">Oftalmologia</SelectItem>
-                        <SelectItem value="Otorrinolaringologia">Otorrinolaringologia</SelectItem>
-                        <SelectItem value="Urologia">Urologia</SelectItem>
-                        <SelectItem value="Endocrinologia">Endocrinologia</SelectItem>
-                        <SelectItem value="Gastroenterologia">Gastroenterologia</SelectItem>
-                        <SelectItem value="Pneumologia">Pneumologia</SelectItem>
-                        <SelectItem value="Reumatologia">Reumatologia</SelectItem>
-                        <SelectItem value="Oncologia">Oncologia</SelectItem>
-                        <SelectItem value="Nefrologia">Nefrologia</SelectItem>
-                        <SelectItem value="Hematologia">Hematologia</SelectItem>
-                        <SelectItem value="Infectologia">Infectologia</SelectItem>
-                        <SelectItem value="Geriatria">Geriatria</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                )}
                 <Button
                   type="submit"
                   className="w-full bg-gradient-secondary hover:opacity-90"
