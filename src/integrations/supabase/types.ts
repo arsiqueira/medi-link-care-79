@@ -83,31 +83,46 @@ export type Database = {
           created_at: string
           data_consulta: string
           diagnostico: string | null
+          duracao_minutos: number | null
           id: string
+          link_video_chamada: string | null
+          motivo_consulta: string | null
           observacoes: string | null
           paciente_id: string
           prescricao: string | null
           profissional_id: string
+          status: string | null
+          tipo_consulta: string | null
         }
         Insert: {
           created_at?: string
           data_consulta: string
           diagnostico?: string | null
+          duracao_minutos?: number | null
           id?: string
+          link_video_chamada?: string | null
+          motivo_consulta?: string | null
           observacoes?: string | null
           paciente_id: string
           prescricao?: string | null
           profissional_id: string
+          status?: string | null
+          tipo_consulta?: string | null
         }
         Update: {
           created_at?: string
           data_consulta?: string
           diagnostico?: string | null
+          duracao_minutos?: number | null
           id?: string
+          link_video_chamada?: string | null
+          motivo_consulta?: string | null
           observacoes?: string | null
           paciente_id?: string
           prescricao?: string | null
           profissional_id?: string
+          status?: string | null
+          tipo_consulta?: string | null
         }
         Relationships: [
           {
@@ -119,6 +134,44 @@ export type Database = {
           },
           {
             foreignKeyName: "consultas_profissional_id_fkey"
+            columns: ["profissional_id"]
+            isOneToOne: false
+            referencedRelation: "profissionais"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      disponibilidade_profissional: {
+        Row: {
+          ativo: boolean | null
+          created_at: string | null
+          dia_semana: number
+          hora_fim: string
+          hora_inicio: string
+          id: string
+          profissional_id: string
+        }
+        Insert: {
+          ativo?: boolean | null
+          created_at?: string | null
+          dia_semana: number
+          hora_fim: string
+          hora_inicio: string
+          id?: string
+          profissional_id: string
+        }
+        Update: {
+          ativo?: boolean | null
+          created_at?: string | null
+          dia_semana?: number
+          hora_fim?: string
+          hora_inicio?: string
+          id?: string
+          profissional_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "disponibilidade_profissional_profissional_id_fkey"
             columns: ["profissional_id"]
             isOneToOne: false
             referencedRelation: "profissionais"
@@ -461,6 +514,7 @@ export type Database = {
             | Database["public"]["Enums"]["classificacao_triagem"]
             | null
           created_at: string
+          especialidade_recomendada: string | null
           id: string
           id_medico_vinculado: string | null
           recomendacao: string | null
@@ -474,6 +528,7 @@ export type Database = {
             | Database["public"]["Enums"]["classificacao_triagem"]
             | null
           created_at?: string
+          especialidade_recomendada?: string | null
           id?: string
           id_medico_vinculado?: string | null
           recomendacao?: string | null
@@ -487,6 +542,7 @@ export type Database = {
             | Database["public"]["Enums"]["classificacao_triagem"]
             | null
           created_at?: string
+          especialidade_recomendada?: string | null
           id?: string
           id_medico_vinculado?: string | null
           recomendacao?: string | null

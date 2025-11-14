@@ -25,6 +25,10 @@ const Auth = () => {
   const [signupEmail, setSignupEmail] = useState("");
   const [signupPassword, setSignupPassword] = useState("");
   const [signupTipo, setSignupTipo] = useState<"paciente" | "profissional" | "voluntario">("paciente");
+  const [signupCpf, setSignupCpf] = useState("");
+  const [signupTelefone, setSignupTelefone] = useState("");
+  const [signupDataNascimento, setSignupDataNascimento] = useState("");
+  const [signupEspecialidade, setSignupEspecialidade] = useState("");
 
   useEffect(() => {
     // Check initial session
@@ -83,8 +87,13 @@ const Auth = () => {
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!signupNome || !signupEmail || !signupPassword) {
-      toast.error("Por favor, preencha todos os campos");
+    if (!signupNome || !signupEmail || !signupPassword || !signupCpf || !signupTelefone || !signupDataNascimento) {
+      toast.error("Por favor, preencha todos os campos obrigatórios");
+      return;
+    }
+
+    if (signupTipo === "profissional" && !signupEspecialidade) {
+      toast.error("Por favor, selecione uma especialidade");
       return;
     }
 
@@ -104,6 +113,10 @@ const Auth = () => {
           data: {
             nome: signupNome,
             tipo_usuario: signupTipo,
+            cpf: signupCpf,
+            telefone: signupTelefone,
+            data_nascimento: signupDataNascimento,
+            especialidade: signupEspecialidade,
           },
         },
       });
@@ -191,19 +204,56 @@ const Auth = () => {
             <TabsContent value="signup">
               <form onSubmit={handleSignup} className="space-y-4 mt-4">
                 <div className="space-y-2">
-                  <Label htmlFor="signup-nome">Nome Completo</Label>
+                  <Label htmlFor="signup-nome">Nome Completo *</Label>
                   <Input
                     id="signup-nome"
                     type="text"
-                    placeholder="Seu nome"
+                    placeholder="Seu nome completo"
                     value={signupNome}
                     onChange={(e) => setSignupNome(e.target.value)}
                     disabled={loading}
                     required
                   />
                 </div>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="signup-cpf">CPF *</Label>
+                    <Input
+                      id="signup-cpf"
+                      type="text"
+                      placeholder="000.000.000-00"
+                      value={signupCpf}
+                      onChange={(e) => setSignupCpf(e.target.value)}
+                      disabled={loading}
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="signup-data-nascimento">Data de Nascimento *</Label>
+                    <Input
+                      id="signup-data-nascimento"
+                      type="date"
+                      value={signupDataNascimento}
+                      onChange={(e) => setSignupDataNascimento(e.target.value)}
+                      disabled={loading}
+                      required
+                    />
+                  </div>
+                </div>
                 <div className="space-y-2">
-                  <Label htmlFor="signup-email">Email</Label>
+                  <Label htmlFor="signup-telefone">Telefone *</Label>
+                  <Input
+                    id="signup-telefone"
+                    type="tel"
+                    placeholder="(00) 00000-0000"
+                    value={signupTelefone}
+                    onChange={(e) => setSignupTelefone(e.target.value)}
+                    disabled={loading}
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="signup-email">Email *</Label>
                   <Input
                     id="signup-email"
                     type="email"
@@ -215,7 +265,7 @@ const Auth = () => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="signup-password">Senha</Label>
+                  <Label htmlFor="signup-password">Senha *</Label>
                   <Input
                     id="signup-password"
                     type="password"
@@ -227,7 +277,7 @@ const Auth = () => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="signup-tipo">Tipo de Conta</Label>
+                  <Label htmlFor="signup-tipo">Tipo de Conta *</Label>
                   <Select
                     value={signupTipo}
                     onValueChange={(value) => setSignupTipo(value as "paciente" | "profissional" | "voluntario")}
@@ -243,6 +293,38 @@ const Auth = () => {
                     </SelectContent>
                   </Select>
                 </div>
+                {signupTipo === "profissional" && (
+                  <div className="space-y-2">
+                    <Label htmlFor="signup-especialidade">Especialidade *</Label>
+                    <Select value={signupEspecialidade} onValueChange={setSignupEspecialidade} disabled={loading}>
+                      <SelectTrigger id="signup-especialidade">
+                        <SelectValue placeholder="Selecione sua especialidade" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Clínico Geral">Clínico Geral</SelectItem>
+                        <SelectItem value="Cardiologia">Cardiologia</SelectItem>
+                        <SelectItem value="Dermatologia">Dermatologia</SelectItem>
+                        <SelectItem value="Ortopedia">Ortopedia</SelectItem>
+                        <SelectItem value="Pediatria">Pediatria</SelectItem>
+                        <SelectItem value="Ginecologia">Ginecologia</SelectItem>
+                        <SelectItem value="Psiquiatria">Psiquiatria</SelectItem>
+                        <SelectItem value="Neurologia">Neurologia</SelectItem>
+                        <SelectItem value="Oftalmologia">Oftalmologia</SelectItem>
+                        <SelectItem value="Otorrinolaringologia">Otorrinolaringologia</SelectItem>
+                        <SelectItem value="Urologia">Urologia</SelectItem>
+                        <SelectItem value="Endocrinologia">Endocrinologia</SelectItem>
+                        <SelectItem value="Gastroenterologia">Gastroenterologia</SelectItem>
+                        <SelectItem value="Pneumologia">Pneumologia</SelectItem>
+                        <SelectItem value="Reumatologia">Reumatologia</SelectItem>
+                        <SelectItem value="Oncologia">Oncologia</SelectItem>
+                        <SelectItem value="Nefrologia">Nefrologia</SelectItem>
+                        <SelectItem value="Hematologia">Hematologia</SelectItem>
+                        <SelectItem value="Infectologia">Infectologia</SelectItem>
+                        <SelectItem value="Geriatria">Geriatria</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                )}
                 <Button
                   type="submit"
                   className="w-full bg-gradient-secondary hover:opacity-90"

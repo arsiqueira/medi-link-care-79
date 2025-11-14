@@ -17,6 +17,7 @@ const Triagem = () => {
   const [resultado, setResultado] = useState<{
     classificacao: Classificacao;
     resposta_ia: string;
+    especialidade_recomendada?: string;
   } | null>(null);
 
   const getClassificacaoBadge = (classificacao: Classificacao) => {
@@ -73,6 +74,7 @@ const Triagem = () => {
             sintomas,
             classificacao: data.classificacao,
             resposta_ia: data.resposta_ia,
+            especialidade_recomendada: data.especialidade_recomendada,
           })
           .select()
           .single();
@@ -221,6 +223,20 @@ const Triagem = () => {
                   </div>
                 </div>
 
+                {resultado.especialidade_recomendada && (
+                  <div className="bg-primary/10 border border-primary/30 rounded-lg p-4">
+                    <h4 className="font-semibold text-primary mb-2">
+                      Especialidade Recomendada
+                    </h4>
+                    <p className="text-lg font-medium">
+                      {resultado.especialidade_recomendada}
+                    </p>
+                    <p className="text-sm text-muted-foreground mt-1">
+                      Baseado nos seus sintomas, recomendamos consultar um especialista nesta área.
+                    </p>
+                  </div>
+                )}
+
                 {resultado.classificacao === "emergencia" && (
                   <div className="bg-error/10 border-2 border-error rounded-lg p-6">
                     <div className="flex items-start gap-3">
@@ -240,11 +256,11 @@ const Triagem = () => {
 
                 <div className="flex gap-4">
                   <Button
-                    onClick={() => navigate("/chat-paciente")}
+                    onClick={() => navigate("/agendamento")}
                     className="flex-1 bg-gradient-primary hover:opacity-90"
                     size="lg"
                   >
-                    💬 Conversar com Médico
+                    📅 Agendar Consulta
                   </Button>
                   <Button
                     onClick={handleNovaTriagem}

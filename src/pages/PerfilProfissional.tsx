@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ArrowLeft, Save, Upload, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -220,11 +221,36 @@ export default function PerfilProfissional() {
                     <div className="grid md:grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <Label htmlFor="especialidade">Especialidade *</Label>
-                        <Input
-                          id="especialidade"
+                        <Select
                           value={profissional.especialidade}
-                          onChange={(e) => setProfissional({ ...profissional, especialidade: e.target.value })}
-                        />
+                          onValueChange={(value) => setProfissional({ ...profissional, especialidade: value })}
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Selecione sua especialidade" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="Clínico Geral">Clínico Geral</SelectItem>
+                            <SelectItem value="Cardiologia">Cardiologia</SelectItem>
+                            <SelectItem value="Dermatologia">Dermatologia</SelectItem>
+                            <SelectItem value="Ortopedia">Ortopedia</SelectItem>
+                            <SelectItem value="Pediatria">Pediatria</SelectItem>
+                            <SelectItem value="Ginecologia">Ginecologia</SelectItem>
+                            <SelectItem value="Psiquiatria">Psiquiatria</SelectItem>
+                            <SelectItem value="Neurologia">Neurologia</SelectItem>
+                            <SelectItem value="Oftalmologia">Oftalmologia</SelectItem>
+                            <SelectItem value="Otorrinolaringologia">Otorrinolaringologia</SelectItem>
+                            <SelectItem value="Urologia">Urologia</SelectItem>
+                            <SelectItem value="Endocrinologia">Endocrinologia</SelectItem>
+                            <SelectItem value="Gastroenterologia">Gastroenterologia</SelectItem>
+                            <SelectItem value="Pneumologia">Pneumologia</SelectItem>
+                            <SelectItem value="Reumatologia">Reumatologia</SelectItem>
+                            <SelectItem value="Oncologia">Oncologia</SelectItem>
+                            <SelectItem value="Nefrologia">Nefrologia</SelectItem>
+                            <SelectItem value="Hematologia">Hematologia</SelectItem>
+                            <SelectItem value="Infectologia">Infectologia</SelectItem>
+                            <SelectItem value="Geriatria">Geriatria</SelectItem>
+                          </SelectContent>
+                        </Select>
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="crm">CRM</Label>
