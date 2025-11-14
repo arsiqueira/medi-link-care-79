@@ -29,6 +29,7 @@ const Auth = () => {
   const [signupTelefone, setSignupTelefone] = useState("");
   const [signupDataNascimento, setSignupDataNascimento] = useState("");
   const [signupEspecialidade, setSignupEspecialidade] = useState("");
+  const [signupCodigoSecreto, setSignupCodigoSecreto] = useState("");
 
   useEffect(() => {
     // Check initial session
@@ -87,6 +88,16 @@ const Auth = () => {
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    if (!signupCodigoSecreto) {
+      toast.error("Por favor, digite o código secreto");
+      return;
+    }
+
+    if (signupCodigoSecreto !== "0000") {
+      toast.error("Código secreto incorreto");
+      return;
+    }
+
     if (!signupNome || !signupEmail || !signupPassword || !signupCpf || !signupTelefone || !signupDataNascimento) {
       toast.error("Por favor, preencha todos os campos obrigatórios");
       return;
@@ -203,6 +214,23 @@ const Auth = () => {
 
             <TabsContent value="signup">
               <form onSubmit={handleSignup} className="space-y-4 mt-4">
+                <div className="space-y-2">
+                  <Label htmlFor="signup-codigo">Código Secreto *</Label>
+                  <Input
+                    id="signup-codigo"
+                    type="password"
+                    placeholder="Digite o código de acesso"
+                    value={signupCodigoSecreto}
+                    onChange={(e) => setSignupCodigoSecreto(e.target.value)}
+                    disabled={loading}
+                    required
+                    maxLength={4}
+                    className="text-center text-2xl tracking-widest"
+                  />
+                  <p className="text-xs text-muted-foreground">
+                    Você precisa do código de acesso para criar uma conta
+                  </p>
+                </div>
                 <div className="space-y-2">
                   <Label htmlFor="signup-nome">Nome Completo *</Label>
                   <Input
