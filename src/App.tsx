@@ -15,6 +15,8 @@ import PerfilPaciente from "./pages/PerfilPaciente";
 import PerfilProfissional from "./pages/PerfilProfissional";
 import Agendamento from "./pages/Agendamento";
 import AgendaMedico from "./pages/AgendaMedico";
+import Lembretes from "./pages/Lembretes";
+import Medicos from "./pages/Medicos";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -39,6 +41,8 @@ const App = () => (
           <Route path="/perfil-profissional" element={<PerfilProfissional />} />
           <Route path="/agendamento" element={<Agendamento />} />
           <Route path="/agenda-medico" element={<AgendaMedico />} />
+          <Route path="/lembretes" element={<Lembretes />} />
+          <Route path="/medicos" element={<Medicos />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
