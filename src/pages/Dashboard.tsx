@@ -133,212 +133,232 @@ const Dashboard = () => {
 
         {/* Quick Actions */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-          <Card
-            className="cursor-pointer hover:shadow-lg transition-all duration-300 border-2 hover:border-primary/50 group"
-            onClick={() => navigate("/triagem")}
-          >
-            <CardHeader>
-              <div className="w-14 h-14 rounded-lg bg-gradient-primary flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                <Brain className="h-7 w-7 text-white" />
-              </div>
-              <CardTitle>Triagem com IA</CardTitle>
-              <CardDescription>
-                Descreva seus sintomas e receba uma análise inteligente
-              </CardDescription>
-            </CardHeader>
-          </Card>
-
-          <Card
-            className="cursor-pointer hover:shadow-lg transition-all duration-300 border-2 hover:border-secondary/50 group"
-            onClick={() => navigate("/prontuario")}
-          >
-            <CardHeader>
-              <div className="w-14 h-14 rounded-lg bg-gradient-secondary flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                <FileText className="h-7 w-7 text-white" />
-              </div>
-              <CardTitle>Meu Prontuário</CardTitle>
-              <CardDescription>
-                Acesse seu histórico médico e exames
-              </CardDescription>
-            </CardHeader>
-          </Card>
-
-          <Card
-            className="cursor-pointer hover:shadow-lg transition-all duration-300 border-2 hover:border-error/50 group"
-            onClick={() => {
-              toast.info("Funcionalidade de emergência em desenvolvimento");
-            }}
-          >
-            <CardHeader>
-              <div className="w-14 h-14 rounded-lg bg-error flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                <AlertCircle className="h-7 w-7 text-white" />
-              </div>
-              <CardTitle>Emergência</CardTitle>
-              <CardDescription>
-                Acione atendimento de emergência rápido
-              </CardDescription>
-            </CardHeader>
-          </Card>
-
-          <Card
-            className="cursor-pointer hover:shadow-lg transition-all duration-300 border-2 hover:border-warning/50 group"
-            onClick={() => {
-              toast.info("Funcionalidade de lembretes em desenvolvimento");
-            }}
-          >
-            <CardHeader>
-              <div className="w-14 h-14 rounded-lg bg-warning flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                <Bell className="h-7 w-7 text-white" />
-              </div>
-              <CardTitle>Lembretes</CardTitle>
-              <CardDescription>
-                Configure alertas de medicação e consultas
-              </CardDescription>
-            </CardHeader>
-          </Card>
-
-          <Card
-            className="cursor-pointer hover:shadow-lg transition-all duration-300 border-2 hover:border-success/50 group"
-            onClick={() => navigate("/chat-paciente")}
-          >
-            <CardHeader>
-              <div className="w-14 h-14 rounded-lg bg-success flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                <Heart className="h-7 w-7 text-white" />
-              </div>
-              <CardTitle>Chat com Médico</CardTitle>
-              <CardDescription>
-                Converse com seu médico em tempo real
-              </CardDescription>
-            </CardHeader>
-          </Card>
-
-          <Card
-            className="cursor-pointer hover:shadow-lg transition-all duration-300 border-2 hover:border-primary/50 group"
-            onClick={() => navigate("/agendamento")}
-          >
-            <CardHeader>
-              <div className="w-14 h-14 rounded-lg bg-gradient-primary flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                <CalendarCheck className="h-7 w-7 text-white" />
-              </div>
-              <CardTitle>Agendar Consulta</CardTitle>
-              <CardDescription>
-                Marque uma consulta com seu médico
-              </CardDescription>
-            </CardHeader>
-          </Card>
-
-          {profile?.tipo_usuario === "paciente" && (
-            <Card
-              className="cursor-pointer hover:shadow-lg transition-all duration-300 border-2 hover:border-info/50 group"
-              onClick={() => navigate("/perfil-paciente")}
-            >
-              <CardHeader>
-                <div className="w-14 h-14 rounded-lg bg-info flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                  <User className="h-7 w-7 text-white" />
-                </div>
-                <CardTitle>Meu Perfil Completo</CardTitle>
-                <CardDescription>
-                  Complete seus dados pessoais e médicos
-                </CardDescription>
-              </CardHeader>
-            </Card>
-          )}
-
-          {profile?.tipo_usuario === "profissional" && (
+          {profile?.tipo_usuario === "paciente" ? (
             <>
               <Card
-                className="cursor-pointer hover:shadow-lg transition-all duration-300 border-2 hover:border-success/50 group"
+                className="group hover:shadow-elegant transition-smooth cursor-pointer bg-card/50 backdrop-blur-sm border-border/50 hover:border-primary/50"
+                onClick={() => navigate("/triagem")}
+              >
+                <CardContent className="flex items-center gap-4 p-6">
+                  <div className="p-3 bg-gradient-primary rounded-2xl shadow-glow">
+                    <Brain className="h-8 w-8 text-white" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-lg">Triagem com IA</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Análise inteligente de sintomas
+                    </p>
+                  </div>
+                  <div className="opacity-0 group-hover:opacity-100 transition-smooth">
+                    <div className="text-primary">→</div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card
+                className="group hover:shadow-elegant transition-smooth cursor-pointer bg-card/50 backdrop-blur-sm border-border/50 hover:border-primary/50"
+                onClick={() => navigate("/medicos")}
+              >
+                <CardContent className="flex items-center gap-4 p-6">
+                  <div className="p-3 bg-gradient-primary rounded-2xl shadow-glow">
+                    <Users className="h-8 w-8 text-white" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-lg">Médicos</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Encontre especialistas
+                    </p>
+                  </div>
+                  <div className="opacity-0 group-hover:opacity-100 transition-smooth">
+                    <div className="text-primary">→</div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card
+                className="group hover:shadow-elegant transition-smooth cursor-pointer bg-card/50 backdrop-blur-sm border-border/50 hover:border-primary/50"
+                onClick={() => navigate("/agendamento")}
+              >
+                <CardContent className="flex items-center gap-4 p-6">
+                  <div className="p-3 bg-gradient-primary rounded-2xl shadow-glow">
+                    <CalendarCheck className="h-8 w-8 text-white" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-lg">Agendar Consulta</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Marque seu atendimento
+                    </p>
+                  </div>
+                  <div className="opacity-0 group-hover:opacity-100 transition-smooth">
+                    <div className="text-primary">→</div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card
+                className="group hover:shadow-elegant transition-smooth cursor-pointer bg-card/50 backdrop-blur-sm border-border/50 hover:border-primary/50"
+                onClick={() => navigate("/chat-paciente")}
+              >
+                <CardContent className="flex items-center gap-4 p-6">
+                  <div className="p-3 bg-gradient-primary rounded-2xl shadow-glow">
+                    <MessageSquare className="h-8 w-8 text-white" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-lg">Chat com Médico</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Converse com seu médico
+                    </p>
+                  </div>
+                  <div className="opacity-0 group-hover:opacity-100 transition-smooth">
+                    <div className="text-primary">→</div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card
+                className="group hover:shadow-elegant transition-smooth cursor-pointer bg-card/50 backdrop-blur-sm border-border/50 hover:border-primary/50"
+                onClick={() => navigate("/lembretes")}
+              >
+                <CardContent className="flex items-center gap-4 p-6">
+                  <div className="p-3 bg-gradient-primary rounded-2xl shadow-glow">
+                    <Bell className="h-8 w-8 text-white" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-lg">Lembretes</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Medicamentos e consultas
+                    </p>
+                  </div>
+                  <div className="opacity-0 group-hover:opacity-100 transition-smooth">
+                    <div className="text-primary">→</div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card
+                className="group hover:shadow-elegant transition-smooth cursor-pointer bg-card/50 backdrop-blur-sm border-border/50 hover:border-primary/50"
+                onClick={() => navigate("/prontuario")}
+              >
+                <CardContent className="flex items-center gap-4 p-6">
+                  <div className="p-3 bg-gradient-primary rounded-2xl shadow-glow">
+                    <FileText className="h-8 w-8 text-white" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-lg">Prontuário</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Histórico e documentos
+                    </p>
+                  </div>
+                  <div className="opacity-0 group-hover:opacity-100 transition-smooth">
+                    <div className="text-primary">→</div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card
+                className="group hover:shadow-elegant transition-smooth cursor-pointer bg-card/50 backdrop-blur-sm border-border/50 hover:border-primary/50"
+                onClick={() => navigate("/perfil-paciente")}
+              >
+                <CardContent className="flex items-center gap-4 p-6">
+                  <div className="p-3 bg-gradient-primary rounded-2xl shadow-glow">
+                    <User className="h-8 w-8 text-white" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-lg">Meu Perfil</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Informações pessoais
+                    </p>
+                  </div>
+                  <div className="opacity-0 group-hover:opacity-100 transition-smooth">
+                    <div className="text-primary">→</div>
+                  </div>
+                </CardContent>
+              </Card>
+            </>
+          ) : (
+            // Cards do Profissional
+            <>
+              <Card
+                className="group hover:shadow-elegant transition-smooth cursor-pointer bg-card/50 backdrop-blur-sm border-border/50 hover:border-primary/50"
                 onClick={() => navigate("/pacientes")}
               >
-                <CardHeader>
-                  <div className="w-14 h-14 rounded-lg bg-success flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <UserCheck className="h-7 w-7 text-white" />
+                <CardContent className="flex items-center gap-4 p-6">
+                  <div className="p-3 bg-gradient-primary rounded-2xl shadow-glow">
+                    <Users className="h-8 w-8 text-white" />
                   </div>
-                  <CardTitle>Meus Pacientes</CardTitle>
-                  <CardDescription>
-                    Visualize e gerencie os dados dos pacientes
-                  </CardDescription>
-                </CardHeader>
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-lg">Pacientes</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Lista de pacientes
+                    </p>
+                  </div>
+                  <div className="opacity-0 group-hover:opacity-100 transition-smooth">
+                    <div className="text-primary">→</div>
+                  </div>
+                </CardContent>
               </Card>
 
               <Card
-                className="cursor-pointer hover:shadow-lg transition-all duration-300 border-2 hover:border-primary/50 group"
+                className="group hover:shadow-elegant transition-smooth cursor-pointer bg-card/50 backdrop-blur-sm border-border/50 hover:border-primary/50"
                 onClick={() => navigate("/chats-medico")}
               >
-                <CardHeader>
-                  <div className="w-14 h-14 rounded-lg bg-gradient-primary flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <Heart className="h-7 w-7 text-white" />
+                <CardContent className="flex items-center gap-4 p-6">
+                  <div className="p-3 bg-gradient-primary rounded-2xl shadow-glow">
+                    <MessageSquare className="h-8 w-8 text-white" />
                   </div>
-                  <CardTitle>Mensagens dos Pacientes</CardTitle>
-                  <CardDescription>
-                    Gerencie conversas com seus pacientes
-                  </CardDescription>
-                </CardHeader>
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-lg">Chats</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Mensagens de pacientes
+                    </p>
+                  </div>
+                  <div className="opacity-0 group-hover:opacity-100 transition-smooth">
+                    <div className="text-primary">→</div>
+                  </div>
+                </CardContent>
               </Card>
 
               <Card
-                className="cursor-pointer hover:shadow-lg transition-all duration-300 border-2 hover:border-secondary/50 group"
+                className="group hover:shadow-elegant transition-smooth cursor-pointer bg-card/50 backdrop-blur-sm border-border/50 hover:border-primary/50"
                 onClick={() => navigate("/agenda-medico")}
               >
-                <CardHeader>
-                  <div className="w-14 h-14 rounded-lg bg-gradient-secondary flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <CalendarCheck className="h-7 w-7 text-white" />
+                <CardContent className="flex items-center gap-4 p-6">
+                  <div className="p-3 bg-gradient-primary rounded-2xl shadow-glow">
+                    <CalendarCheck className="h-8 w-8 text-white" />
                   </div>
-                  <CardTitle>Minha Agenda</CardTitle>
-                  <CardDescription>
-                    Gerencie consultas e disponibilidade
-                  </CardDescription>
-                </CardHeader>
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-lg">Agenda</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Consultas e disponibilidade
+                    </p>
+                  </div>
+                  <div className="opacity-0 group-hover:opacity-100 transition-smooth">
+                    <div className="text-primary">→</div>
+                  </div>
+                </CardContent>
               </Card>
 
               <Card
-                className="cursor-pointer hover:shadow-lg transition-all duration-300 border-2 hover:border-info/50 group"
+                className="group hover:shadow-elegant transition-smooth cursor-pointer bg-card/50 backdrop-blur-sm border-border/50 hover:border-primary/50"
                 onClick={() => navigate("/perfil-profissional")}
               >
-                <CardHeader>
-                  <div className="w-14 h-14 rounded-lg bg-info flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <User className="h-7 w-7 text-white" />
+                <CardContent className="flex items-center gap-4 p-6">
+                  <div className="p-3 bg-gradient-primary rounded-2xl shadow-glow">
+                    <UserCheck className="h-8 w-8 text-white" />
                   </div>
-                  <CardTitle>Meu Perfil Profissional</CardTitle>
-                  <CardDescription>
-                    Complete seus dados profissionais
-                  </CardDescription>
-                </CardHeader>
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-lg">Meu Perfil</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Dados profissionais
+                    </p>
+                  </div>
+                  <div className="opacity-0 group-hover:opacity-100 transition-smooth">
+                    <div className="text-primary">→</div>
+                  </div>
+                </CardContent>
               </Card>
             </>
           )}
-        </div>
-
-        {/* Info Cards */}
-        <div className="grid md:grid-cols-3 gap-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Tipo de Conta</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-2xl font-bold capitalize text-primary">
-                {profile?.tipo_usuario}
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Status</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-2xl font-bold text-success">Ativo</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Última Atualização</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-2xl font-bold text-muted-foreground">Hoje</p>
-            </CardContent>
-          </Card>
         </div>
       </div>
     </div>
