@@ -46,9 +46,36 @@ serve(async (req) => {
             1. Classificação de urgência: leve, moderado, grave ou emergencia
             2. Análise detalhada dos sintomas
             3. Recomendações de ação (procurar atendimento imediato, consultar médico em breve, cuidados domiciliares)
+            4. Especialidade médica mais adequada baseada nos sintomas descritos
             
-            IMPORTANTE: Sempre deixe claro que você não substitui uma consulta médica real.
+            Especialidades disponíveis:
+            - Clínico Geral (sintomas gerais, febres, gripes, check-ups)
+            - Cardiologia (coração, pressão, dor no peito, palpitações)
+            - Dermatologia (pele, manchas, acne, lesões cutâneas)
+            - Ortopedia (ossos, articulações, fraturas, dores musculares)
+            - Pediatria (crianças e adolescentes até 18 anos)
+            - Ginecologia (saúde feminina, gravidez, menstruação)
+            - Psiquiatria (saúde mental, ansiedade, depressão)
+            - Neurologia (cérebro, nervos, convulsões, enxaquecas)
+            - Oftalmologia (olhos, visão)
+            - Otorrinolaringologia (ouvido, nariz, garganta)
+            - Urologia (sistema urinário, próstata)
+            - Endocrinologia (hormônios, diabetes, tireoide)
+            - Gastroenterologia (estômago, intestino, digestão)
+            - Pneumologia (pulmões, respiração, asma)
+            - Reumatologia (artrite, doenças autoimunes)
+            - Oncologia (câncer, tumores)
+            - Nefrologia (rins)
+            - Hematologia (sangue)
+            - Infectologia (infecções, doenças infecciosas)
+            - Geriatria (idosos acima de 65 anos)
+            
+            IMPORTANTE: Analise cuidadosamente os sintomas e recomende a especialidade MAIS ADEQUADA. 
+            Não recomende sempre a mesma especialidade.
+            Sempre deixe claro que você não substitui uma consulta médica real.
             Forneça informações úteis mas seguras.
+            
+            Na sua resposta, mencione explicitamente qual especialidade você recomenda.
             
             Responda em português do Brasil, de forma clara e empática.`
           },
@@ -59,7 +86,8 @@ serve(async (req) => {
             Por favor, forneça:
             1. Classificação de urgência (leve/moderado/grave/emergencia)
             2. Análise dos sintomas
-            3. Recomendações específicas`
+            3. Especialidade médica mais adequada para este caso
+            4. Recomendações específicas`
           }
         ],
         stream: false,
@@ -109,45 +137,35 @@ serve(async (req) => {
       classificacao = 'leve';
     }
 
-    // Determinar especialidade recomendada baseado nos sintomas
-    if (respostaLower.includes('coração') || respostaLower.includes('cardíaco') || respostaLower.includes('cardiaco')) {
-      especialidade_recomendada = 'Cardiologia';
-    } else if (respostaLower.includes('pele') || respostaLower.includes('dermat')) {
-      especialidade_recomendada = 'Dermatologia';
-    } else if (respostaLower.includes('osso') || respostaLower.includes('articulação') || respostaLower.includes('ortopéd')) {
-      especialidade_recomendada = 'Ortopedia';
-    } else if (respostaLower.includes('criança') || respostaLower.includes('bebê') || respostaLower.includes('pediatr')) {
-      especialidade_recomendada = 'Pediatria';
-    } else if (respostaLower.includes('ginecológico') || respostaLower.includes('gravidez') || respostaLower.includes('menstruação')) {
-      especialidade_recomendada = 'Ginecologia';
-    } else if (respostaLower.includes('mental') || respostaLower.includes('ansiedade') || respostaLower.includes('depressão') || respostaLower.includes('psiquiát')) {
-      especialidade_recomendada = 'Psiquiatria';
-    } else if (respostaLower.includes('neurológico') || respostaLower.includes('cérebro') || respostaLower.includes('neuro')) {
-      especialidade_recomendada = 'Neurologia';
-    } else if (respostaLower.includes('olho') || respostaLower.includes('visão') || respostaLower.includes('oftalm')) {
-      especialidade_recomendada = 'Oftalmologia';
-    } else if (respostaLower.includes('ouvido') || respostaLower.includes('nariz') || respostaLower.includes('garganta') || respostaLower.includes('otorr')) {
-      especialidade_recomendada = 'Otorrinolaringologia';
-    } else if (respostaLower.includes('urinário') || respostaLower.includes('próstata') || respostaLower.includes('urol')) {
-      especialidade_recomendada = 'Urologia';
-    } else if (respostaLower.includes('hormônio') || respostaLower.includes('tireoide') || respostaLower.includes('diabetes') || respostaLower.includes('endocr')) {
-      especialidade_recomendada = 'Endocrinologia';
-    } else if (respostaLower.includes('estômago') || respostaLower.includes('intestino') || respostaLower.includes('digestivo') || respostaLower.includes('gastr')) {
-      especialidade_recomendada = 'Gastroenterologia';
-    } else if (respostaLower.includes('pulmão') || respostaLower.includes('respiratório') || respostaLower.includes('pneumo')) {
-      especialidade_recomendada = 'Pneumologia';
-    } else if (respostaLower.includes('artrite') || respostaLower.includes('reumat')) {
-      especialidade_recomendada = 'Reumatologia';
-    } else if (respostaLower.includes('câncer') || respostaLower.includes('tumor') || respostaLower.includes('oncol')) {
-      especialidade_recomendada = 'Oncologia';
-    } else if (respostaLower.includes('rim') || respostaLower.includes('renal') || respostaLower.includes('nefr')) {
-      especialidade_recomendada = 'Nefrologia';
-    } else if (respostaLower.includes('sangue') || respostaLower.includes('hemato')) {
-      especialidade_recomendada = 'Hematologia';
-    } else if (respostaLower.includes('infecção') || respostaLower.includes('infeccio')) {
-      especialidade_recomendada = 'Infectologia';
-    } else if (respostaLower.includes('idoso') || respostaLower.includes('geriát')) {
-      especialidade_recomendada = 'Geriatria';
+    // Determinar especialidade recomendada baseado na resposta da IA e nos sintomas
+    const especialidades = [
+      { nomes: ['cardiologia', 'cardiologista', 'coração', 'cardíaco', 'cardiaco'], especialidade: 'Cardiologia' },
+      { nomes: ['dermatologia', 'dermatologista', 'pele', 'dermat'], especialidade: 'Dermatologia' },
+      { nomes: ['ortopedia', 'ortopedista', 'osso', 'articulação', 'ortopéd'], especialidade: 'Ortopedia' },
+      { nomes: ['pediatria', 'pediatra', 'criança', 'bebê', 'infantil'], especialidade: 'Pediatria' },
+      { nomes: ['ginecologia', 'ginecologista', 'ginecológico', 'gravidez', 'menstruação'], especialidade: 'Ginecologia' },
+      { nomes: ['psiquiatria', 'psiquiatra', 'mental', 'ansiedade', 'depressão', 'psiquiát'], especialidade: 'Psiquiatria' },
+      { nomes: ['neurologia', 'neurologista', 'neurológico', 'cérebro', 'neuro'], especialidade: 'Neurologia' },
+      { nomes: ['oftalmologia', 'oftalmologista', 'olho', 'visão', 'oftalm'], especialidade: 'Oftalmologia' },
+      { nomes: ['otorrinolaringologia', 'otorrino', 'ouvido', 'nariz', 'garganta', 'otorr'], especialidade: 'Otorrinolaringologia' },
+      { nomes: ['urologia', 'urologista', 'urinário', 'próstata', 'urol'], especialidade: 'Urologia' },
+      { nomes: ['endocrinologia', 'endocrinologista', 'hormônio', 'tireoide', 'diabetes', 'endocr'], especialidade: 'Endocrinologia' },
+      { nomes: ['gastroenterologia', 'gastro', 'estômago', 'intestino', 'digestivo', 'gastr'], especialidade: 'Gastroenterologia' },
+      { nomes: ['pneumologia', 'pneumologista', 'pulmão', 'respiratório', 'pneumo'], especialidade: 'Pneumologia' },
+      { nomes: ['reumatologia', 'reumatologista', 'artrite', 'reumat'], especialidade: 'Reumatologia' },
+      { nomes: ['oncologia', 'oncologista', 'câncer', 'tumor', 'oncol'], especialidade: 'Oncologia' },
+      { nomes: ['nefrologia', 'nefrologista', 'rim', 'renal', 'nefr'], especialidade: 'Nefrologia' },
+      { nomes: ['hematologia', 'hematologista', 'sangue', 'hemato'], especialidade: 'Hematologia' },
+      { nomes: ['infectologia', 'infectologista', 'infecção', 'infeccio'], especialidade: 'Infectologia' },
+      { nomes: ['geriatria', 'geriatra', 'idoso', 'geriát'], especialidade: 'Geriatria' },
+    ];
+
+    // Procurar a especialidade mencionada na resposta da IA
+    for (const esp of especialidades) {
+      if (esp.nomes.some(nome => respostaLower.includes(nome))) {
+        especialidade_recomendada = esp.especialidade;
+        break;
+      }
     }
 
     return new Response(
@@ -157,16 +175,6 @@ serve(async (req) => {
         especialidade_recomendada,
       }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-    );
-
-    return new Response(
-      JSON.stringify({
-        classificacao,
-        resposta_ia: respostaIA,
-      }),
-      {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      }
     );
   } catch (error) {
     console.error('Erro na função de triagem:', error);

@@ -7,6 +7,7 @@ import { Activity, AlertCircle, Bell, Brain, FileText, LogOut, Heart, Users, Use
 import { toast } from "sonner";
 import { Session } from "@supabase/supabase-js";
 import dashboardBg from "@/assets/dashboard-bg.jpg";
+import logo from "@/assets/medilink-logo.png";
 
 interface Profile {
   id: string;
@@ -91,9 +92,11 @@ const Dashboard = () => {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-full bg-gradient-primary flex items-center justify-center shadow-glow">
-                <Activity className="h-6 w-6 text-white" />
-              </div>
+              <img 
+                src={logo} 
+                alt="MediLink Logo" 
+                className="h-12 w-12"
+              />
               <div>
                 <h1 className="text-2xl font-bold">MediLink</h1>
                 <p className="text-sm text-muted-foreground">
